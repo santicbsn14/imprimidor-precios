@@ -20,10 +20,10 @@
   --codigo-size: 10pt;
   --logo-h: 18mm;
   --oferta-label-size: 17pt;
-  --precio-size: 71pt;
-  --precio-simbolo-size: 34pt;
+  --precio-size: 80pt;
+  --precio-simbolo-size: 38pt;
   --debito-size: 10pt;
-  --lista-size: 18pt;
+  --lista-size: 26pt;
   --icono-size: 16mm;
 }
 
@@ -35,10 +35,10 @@
   --codigo-size: 8pt;
   --logo-h: 12mm;
   --oferta-label-size: 10pt;
-  --precio-size: 39pt;
-  --precio-simbolo-size: 20pt;
+  --precio-size: 44pt;
+  --precio-simbolo-size: 22pt;
   --debito-size: 8pt;
-  --lista-size: 12pt;
+  --lista-size: 18pt;
   --icono-size: 9mm;
 }
 
