@@ -1,0 +1,279 @@
+/* ==========================================================================
+   nano-precios — layout de impresión
+   El ajuste fino de mm / tipografía se hace imprimiendo. Todos los valores
+   calibrables viven en las custom properties de .hoja--grande / .hoja--mediano.
+   ========================================================================== */
+
+@page {
+  size: A4;
+  margin: 8mm;
+}
+
+/* --------------------------------------------------------------------------
+   Medidas por formato — ÚNICO lugar para calibrar (valores de arranque)
+   -------------------------------------------------------------------------- */
+.hoja--grande {
+  --cols: 1;
+  --cartel-w: 194mm;
+  --cartel-h: 137mm;
+  --nombre-size: 21pt;
+  --codigo-size: 10pt;
+  --logo-h: 18mm;
+  --oferta-label-size: 17pt;
+  --precio-size: 71pt;
+  --precio-simbolo-size: 34pt;
+  --debito-size: 10pt;
+  --lista-size: 18pt;
+  --icono-size: 16mm;
+}
+
+.hoja--mediano {
+  --cols: 2;
+  --cartel-w: 95mm;
+  --cartel-h: 91mm;
+  --nombre-size: 13pt;
+  --codigo-size: 8pt;
+  --logo-h: 12mm;
+  --oferta-label-size: 10pt;
+  --precio-size: 39pt;
+  --precio-simbolo-size: 20pt;
+  --debito-size: 8pt;
+  --lista-size: 12pt;
+  --icono-size: 9mm;
+}
+
+/* --------------------------------------------------------------------------
+   Hoja A4 + grid de carteles
+   -------------------------------------------------------------------------- */
+.hoja {
+  box-sizing: border-box;
+  background: #ffffff;
+}
+
+.hoja__grid {
+  display: grid;
+  grid-template-columns: repeat(var(--cols), var(--cartel-w));
+  grid-auto-rows: var(--cartel-h);
+  justify-content: center;
+  align-content: start;
+  gap: 0;
+  width: 194mm; /* área imprimible con @page margin 8mm */
+  margin: 0 auto;
+}
+
+/* --------------------------------------------------------------------------
+   Cartel — única fuente de verdad del diseño (pantalla e impresión)
+   -------------------------------------------------------------------------- */
+.cartel {
+  box-sizing: border-box;
+  width: var(--cartel-w);
+  height: var(--cartel-h);
+  padding: 6mm;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2mm;
+  text-align: center;
+  border: 1px solid #e5e7eb; /* guía de corte */
+  overflow: hidden;
+  color: #0a0a0a;
+  font-family: Arial, Helvetica, sans-serif;
+
+  /* Crítico: que el logo en color NO se descarte al imprimir */
+  print-color-adjust: exact;
+  -webkit-print-color-adjust: exact;
+}
+
+.cartel__nombre {
+  margin: 0;
+  font-size: var(--nombre-size);
+  font-weight: 700;
+  text-transform: uppercase;
+  line-height: 1.1;
+  color: #0a0a0a;
+}
+
+.cartel__codigo {
+  margin: 0;
+  font-size: var(--codigo-size);
+  letter-spacing: 0.05em;
+  color: #0a0a0a;
+}
+
+/* Fila: logo | "OFERTA EFECTIVO:" | ícono billete */
+.cartel__oferta {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 3mm;
+  margin: 1mm 0;
+}
+
+.cartel__logo {
+  height: var(--logo-h);
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  flex: 0 0 auto;
+}
+
+.cartel__oferta-label {
+  font-size: var(--oferta-label-size);
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: #0a0a0a;
+}
+
+.cartel__icono {
+  width: var(--icono-size);
+  height: auto;
+  flex: 0 0 auto;
+}
+
+/* Precio contado — elemento dominante del cartel */
+.cartel__precio {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 1.5mm;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 900;
+  line-height: 0.95;
+  color: #0a0a0a;
+}
+
+.cartel__precio-simbolo {
+  font-size: var(--precio-simbolo-size);
+  font-weight: 900;
+}
+
+.cartel__precio-num {
+  font-size: var(--precio-size);
+  font-weight: 900;
+  letter-spacing: -0.01em;
+}
+
+/* Fila: "DEBITO/CREDITO/TRANSFERENCIA/QR" | ícono tarjetas */
+.cartel__debito {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 2mm;
+}
+
+.cartel__debito-label {
+  font-size: var(--debito-size);
+  font-weight: 700;
+  color: #0a0a0a;
+}
+
+.cartel__lista {
+  margin: 0;
+  font-size: var(--lista-size);
+  font-weight: 700;
+  color: #0a0a0a;
+}
+
+/* --------------------------------------------------------------------------
+   Preview en PANTALLA — hojas como páginas A4 sobre fondo gris
+   -------------------------------------------------------------------------- */
+.preview__header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 0.75rem 0 1rem;
+}
+
+.preview__formato {
+  display: flex;
+  gap: 0.3rem;
+}
+
+.preview__contador {
+  color: #6b7280;
+  font-size: 0.9rem;
+  flex: 1;
+}
+
+.zona-impresion {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10mm;
+  padding: 10mm;
+  background: #e5e7eb;
+  border-radius: 8px;
+  max-height: calc(100vh - 160px);
+  overflow: auto;
+}
+
+.zona-impresion .hoja {
+  width: 210mm;
+  min-height: 297mm;
+  padding: 8mm; /* simula el margen de @page */
+  flex: 0 0 auto;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.18);
+}
+
+/* --------------------------------------------------------------------------
+   Impresión
+   -------------------------------------------------------------------------- */
+@media print {
+  body {
+    margin: 0;
+    background: #ffffff;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .app,
+  .app--preview,
+  .preview {
+    margin: 0;
+    padding: 0;
+    max-width: none;
+    min-height: 0;
+  }
+
+  .zona-impresion {
+    display: block;
+    background: none;
+    border-radius: 0;
+    padding: 0;
+    margin: 0;
+    max-height: none;
+    overflow: visible;
+  }
+
+  .zona-impresion .hoja {
+    width: auto;
+    min-height: 0;
+    padding: 0;
+    box-shadow: none;
+  }
+
+  /* Paginación determinística: una hoja por página, salto después de cada
+     una salvo la última. */
+  .hoja {
+    break-after: page;
+    page-break-after: always; /* legacy */
+  }
+
+  .hoja:last-child {
+    break-after: auto;
+    page-break-after: auto;
+  }
+
+  .cartel {
+    break-inside: avoid; /* red de seguridad */
+    page-break-inside: avoid;
+  }
+}
